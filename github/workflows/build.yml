@@ -1,0 +1,35 @@
+name: build
+on:
+  workflow_dispatch:
+  push:
+jobs:
+  mc-1-21-4:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: unzip -o *.zip
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 21 }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: 8.12 }
+      - run: gradle build
+        working-directory: mc1.21.4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: button-hide-on-recording-1.21.4
+          path: mc1.21.4/build/libs/*.jar
+  mc-26-3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: unzip -o *.zip
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: 25 }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: 9.5.1 }
+      - run: gradle build
+        working-directory: mc26.3
+      - uses: actions/upload-artifact@v4
+        with:
+          name: button-hide-on-recording-26.3
+          path: mc26.3/build/libs/*.jar
